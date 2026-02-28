@@ -11,10 +11,13 @@ import abstraction.eqXRomu.general.Variable;
 import abstraction.eqXRomu.produits.IProduit;
 
 public class Producteur3Acteur implements IActeur {
-	
+	protected Journal journal_periode;
+	protected int periode_act ;
 	protected int cryptogramme;
 
 	public Producteur3Acteur() {
+		this.journal_periode = new Journal("Journal "+this.getNom(), this);
+		this.periode_act=0;
 	}
 	
 	public void initialiser() {
@@ -33,6 +36,8 @@ public class Producteur3Acteur implements IActeur {
 	////////////////////////////////////////////////////////
 
 	public void next() {
+		this.journal_periode.ajouter("période : "+ this.periode_act);
+		this.periode_act++;
 	}
 
 	public Color getColor() {// NE PAS MODIFIER
