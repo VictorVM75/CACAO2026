@@ -2,22 +2,34 @@ package abstraction.eq3Producteur3;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import abstraction.eqXRomu.filiere.Filiere;
 import abstraction.eqXRomu.filiere.IActeur;
 import abstraction.eqXRomu.general.Journal;
 import abstraction.eqXRomu.general.Variable;
+import abstraction.eqXRomu.general.VariableReadOnly;
+import abstraction.eqXRomu.produits.Feve;
 import abstraction.eqXRomu.produits.IProduit;
 
 public class Producteur3Acteur implements IActeur {
 	protected Journal journal_periode;
+	protected Journal journal_stock_periode;
 	protected int periode_act ;
 	protected int cryptogramme;
+	protected HashMap<Feve,Variable> stock;
+	
 
 	public Producteur3Acteur() {
-		this.journal_periode = new Journal("Journal "+this.getNom(), this);
+		this.journal_periode = new Journal("Journal des périodes"+this.getNom(), this);
+		this.journal_stock_periode= new Journal ("Journal du stock restant par période"+this.getNom(),this);
 		this.periode_act=0;
+		this.stock = new HashMap<Feve, Variable>();
+		for (Feve f : Feve.values()) {
+    		this.stock.put(f, new VariableReadOnly(this + " Stock " + f, this, 0.0));
+		}
+		
 	}
 	
 	public void initialiser() {
@@ -37,6 +49,11 @@ public class Producteur3Acteur implements IActeur {
 
 	public void next() {
 		this.journal_periode.ajouter("période : "+ this.periode_act);
+		double totalStock=0.0;
+		for (Feve f : Feve.values()) {
+			totalStock+=this.stock.get(f).getValeur();
+		}
+		this.journal_stock_periode.ajouter("stock de la période "+this.periode_act +"="+ totalStock );
 		this.periode_act++;
 	}
 
