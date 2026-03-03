@@ -23,7 +23,7 @@ public class Transformateur4Acteur implements IActeur {
 	}
 
 	public String getNom() {// NE PAS MODIFIER
-		return "EQ6";
+		return "EQ7";
 	}
 	
 	public String toString() {// NE PAS MODIFIER
